@@ -1,0 +1,7 @@
+{
+  "name": "delete",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

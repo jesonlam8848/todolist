@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "uni-app",
+  "usingComponents": {
+    "todo-head": "/components/todo-head/todo-head",
+    "todo-content": "/components/todo-content/todo-content",
+    "todo-operate": "/components/todo-operate/todo-operate"
+  }
+}
