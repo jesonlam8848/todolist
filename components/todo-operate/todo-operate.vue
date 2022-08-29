@@ -2,10 +2,11 @@
     <view>
         <view class="add-tast" v-if="!toOperate">
             <!-- #ifndef APP-NVUE -->
-            <u-input v-model="taskText" placeholder="请输如要创建的todo">
+            <u-input v-model="taskText" placeholder="请输入要创建的todoList">
                 <!-- #endif -->
+
                 <!-- #ifdef APP-NVUE -->
-                <u--input v-model="taskText" placeholder="请输如要创建的todo">
+                <u--input v-model="taskText" placeholder="请输入要创建的todoList">
                     <!-- #endif -->
                     <template slot="suffix">
                         <u-button @tap="toAddTask(taskText)" text="创建" type="success" size="mini"></u-button>
@@ -17,7 +18,9 @@
             </u--input>
             <!-- #endif -->
         </view>
-
+        <view class="Tips">
+            <text>长按创建的list实现以下操作</text>
+        </view>
         <view class="to-opreate" v-if="!toOperate">
             <view class="item" @click="toMarkOver">
                 <image src="../../static/noread.png"></image>
@@ -62,7 +65,8 @@
                     name: 'publish',
                     data: {
                         taskText: e,
-                        apiname: 'publish'
+                        apiname: 'publish',
+                        token: uni.getStorageSync('token')
                     }
                 })
             },
@@ -83,7 +87,14 @@
 </script>
 
 <style lang="scss">
+    .Tips {
+        margin: 40rpx auto 10rpx;
+        border: 1px solid #e5e5e5;
+        text-align: center;
+    }
+
     .add-tast {
+        margin-top: 10rpx;
         flex: 1 0 80rpx;
     }
 

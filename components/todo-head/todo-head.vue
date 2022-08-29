@@ -1,7 +1,7 @@
 <template>
     <view class="title-box" justify="space-between">
         <view class="title-left" span="3">
-            <text>todoList</text>
+            <text style="color: forestgreen;">todoList待办表</text>
             <!-- <text class="label">全部：</text> -->
             <!-- <text>{{ length }}</text> -->
         </view>
