@@ -1,6 +1,8 @@
 {
   "name": "publish",
-  "dependencies": {},
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
   "extensions": {
     "uni-cloud-jql": {}
   }
