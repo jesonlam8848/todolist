@@ -29,13 +29,12 @@
       "outputPath": ""
     },
     "disableUseStrict": false,
-    "useCompilerPlugins": false,
-    "minifyWXML": true
+    "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
   "libVersion": "2.25.4",
   "appid": "wxb234932e49cfd744",
-  "projectname": "todolist",
+  "projectname": "todolist2.0.0",
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
