@@ -44,22 +44,51 @@
             },
         },
         onLoad() {
-            uniCloud.callFunction({
-                name: 'publish',
-                data: {
-                    apiname: 'getTask'
-                }
-            }).then(res => {
-                // console.log('indexOnLoad', res.result.data);
-                let taskTexts = res.result.data
-                for (let i = 0; i < taskTexts.length; i++) {
-                    this.tasks.push({
-                        label: taskTexts[i].taskText
+            let token = uni.getStorageSync('token');
+            if (!token) {
+                uni.login({
+                    onlyAuthorize: true
+                }).then(({
+                    code
+                }) => {
+                    uniCloud.callFunction({
+                        name: 'publish',
+                        data: {
+                            api: 'loginWithMp',
+                            code
+                        }
+                    }).then(({
+                        result
+                    }) => {
+                        token = result.token;
+                        uni.setStorageSync('token', token);
+                        this.getList();
+                    }).catch(err => {
+                        console.log('loginloginWithMpErr', err)
                     })
-                }
-            })
+                })
+            } else {
+                this.getList();
+            }
         },
         methods: {
+            getList() {
+                uniCloud.callFunction({
+                    name: 'publish',
+                    data: {
+                        apiname: 'getTask',
+                        token: uni.getStorageSync('token')
+                    }
+                }).then(res => {
+                    // console.log('indexOnLoad', res.result.data);
+                    let taskTexts = res.result.data
+                    for (let i = 0; i < taskTexts.length; i++) {
+                        this.tasks.push({
+                            label: taskTexts[i].taskText
+                        })
+                    }
+                })
+            },
             change(checked) {
                 this.checked = checked;
             },
@@ -112,7 +141,8 @@
                     name: 'publish',
                     data: {
                         apiname: 'delete',
-                        checked: this.checked
+                        checked: this.checked,
+                        token: uni.getStorageSync('token')
                     }
                 }).then(res => console.log('111', res))
                 this.toOperate = false;
@@ -139,7 +169,8 @@
                     name: 'publish',
                     data: {
                         apiname: 'delete',
-                        checked: this.checked
+                        checked: this.checked,
+                        token: uni.getStorageSync('token')
                     }
                 }).then(res => console.log('222', res))
                 this.toOperate = false;
