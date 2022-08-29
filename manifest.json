@@ -45,9 +45,7 @@
             /* SDK配置 */
             "sdkConfigs": {
                 "oauth": {
-                    "weixin": {
-                        //"appsecret": "我的appsecret"
-                    }
+                    "weixin": {}
                 }
             }
         }
@@ -57,7 +55,6 @@
     /* 小程序特有相关 */
     "mp-weixin": {
         "appid": "wxb234932e49cfd744",
-        //"appsecret": "我的appsecret",
         "setting": {
             "urlCheck": false
         },
