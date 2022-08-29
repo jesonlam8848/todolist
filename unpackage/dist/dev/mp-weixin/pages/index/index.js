@@ -161,7 +161,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uniCloud, uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni, uniCloud) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -207,22 +207,51 @@ var _warn = _interopRequireDefault(__webpack_require__(/*! @/common/images/warn.
 //
 //
 var _default = { data: function data() {return { checked: [], tabIdx: 0, tasks: [], taskIntro: '还没有任务，可点击下方按钮，开始创建任务', toOperate: false };}, computed: { listData: function listData() {if (this.tabIdx == 0) {return this.tasks;} else if (this.tabIdx == 1) {return this.tasks.filter(function (v) {return !v.read;});;} else if (this.tabIdx == 2) {return this.tasks.filter(function (v) {return v.read;});;}} }, onLoad: function onLoad() {var _this = this;
-    uniCloud.callFunction({
-      name: 'publish',
-      data: {
-        apiname: 'getTask' } }).
+    var token = uni.getStorageSync('token');
+    if (!token) {
+      uni.login({
+        onlyAuthorize: true }).
+      then(function (_ref)
 
-    then(function (res) {
-      // console.log('indexOnLoad', res.result.data);
-      var taskTexts = res.result.data;
-      for (var i = 0; i < taskTexts.length; i++) {
-        _this.tasks.push({
-          label: taskTexts[i].taskText });
+      {var code = _ref.code;
+        uniCloud.callFunction({
+          name: 'publish',
+          data: {
+            api: 'loginWithMp',
+            code: code } }).
 
-      }
-    });
+        then(function (_ref2)
+
+        {var result = _ref2.result;
+          token = result.token;
+          uni.setStorageSync('token', token);
+          _this.getList();
+        }).catch(function (err) {
+          console.log('loginloginWithMpErr', err);
+        });
+      });
+    } else {
+      this.getList();
+    }
   },
   methods: {
+    getList: function getList() {var _this2 = this;
+      uniCloud.callFunction({
+        name: 'publish',
+        data: {
+          apiname: 'getTask',
+          token: uni.getStorageSync('token') } }).
+
+      then(function (res) {
+        // console.log('indexOnLoad', res.result.data);
+        var taskTexts = res.result.data;
+        for (var i = 0; i < taskTexts.length; i++) {
+          _this2.tasks.push({
+            label: taskTexts[i].taskText });
+
+        }
+      });
+    },
     change: function change(checked) {
       this.checked = checked;
     },
@@ -239,17 +268,17 @@ var _default = { data: function data() {return { checked: [], tabIdx: 0, tasks: 
       }
     },
     // 长按选择
-    longpress: function longpress() {var _this2 = this;
+    longpress: function longpress() {var _this3 = this;
       this.toOperate = true;
       this.tasks.forEach(function (v) {
-        !v.hasOwnProperty('show') ? _this2.$set(v, 'show', true) : v.show = true;
+        !v.hasOwnProperty('show') ? _this3.$set(v, 'show', true) : v.show = true;
       });
     },
     // 全选
-    toSelAll: function toSelAll() {var _this3 = this;
+    toSelAll: function toSelAll() {var _this4 = this;
       var checked = [];
       this.listData.forEach(function (v) {
-        _this3.checked.push(v.label);
+        _this4.checked.push(v.label);
         checked.push(v.label);
       });
       this.$refs.list.toChangeSel(checked);
@@ -275,13 +304,14 @@ var _default = { data: function data() {return { checked: [], tabIdx: 0, tasks: 
         name: 'publish',
         data: {
           apiname: 'delete',
-          checked: this.checked } }).
+          checked: this.checked,
+          token: uni.getStorageSync('token') } }).
 
       then(function (res) {return console.log('111', res);});
       this.toOperate = false;
     },
     // 标记为已读
-    toMarkOver: function toMarkOver() {var _this4 = this;
+    toMarkOver: function toMarkOver() {var _this5 = this;
       if (this.checked.length === 0) {
         uni.showToast({
           title: '请选择任务',
@@ -290,19 +320,20 @@ var _default = { data: function data() {return { checked: [], tabIdx: 0, tasks: 
         return;
       }
       this.tasks.forEach(function (v) {
-        var result = _this4.checked.find(function (s) {return s === v.label || v.read;});
+        var result = _this5.checked.find(function (s) {return s === v.label || v.read;});
         if (result) {
-          !v.hasOwnProperty('read') ? _this4.$set(v, 'read', true) : v.read = true;
+          !v.hasOwnProperty('read') ? _this5.$set(v, 'read', true) : v.read = true;
         } else {
-          !v.hasOwnProperty('read') ? _this4.$set(v, 'read', false) : v.read = false;
-        }!v.hasOwnProperty('show') ? _this4.$set(v, 'show', false) : v.show = false;
+          !v.hasOwnProperty('read') ? _this5.$set(v, 'read', false) : v.read = false;
+        }!v.hasOwnProperty('show') ? _this5.$set(v, 'show', false) : v.show = false;
       });
       // console.log('indexToMarkOver', this.checked);
       uniCloud.callFunction({
         name: 'publish',
         data: {
           apiname: 'delete',
-          checked: this.checked } }).
+          checked: this.checked,
+          token: uni.getStorageSync('token') } }).
 
       then(function (res) {return console.log('222', res);});
       this.toOperate = false;
@@ -330,7 +361,7 @@ var _default = { data: function data() {return { checked: [], tabIdx: 0, tasks: 
 
       this.$refs.operate.resetText();
     } } };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 6)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js */ 6)["default"]))
 
 /***/ }),
 

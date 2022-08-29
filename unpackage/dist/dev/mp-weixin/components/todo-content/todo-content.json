@@ -1,7 +1,7 @@
 {
+  "component": true,
   "usingComponents": {
     "u-checkbox-group": "/uni_modules/uview-ui/components/u-checkbox-group/u-checkbox-group",
     "u-checkbox": "/uni_modules/uview-ui/components/u-checkbox/u-checkbox"
-  },
-  "component": true
+  }
 }

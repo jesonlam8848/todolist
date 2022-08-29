@@ -9,6 +9,7 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
+  "appsecret": "a1762e8f3a96e8d06715e7e560847080",
   "lazyCodeLoading": "requiredComponents",
   "usingComponents": {},
   "sitemapLocation": "sitemap.json"

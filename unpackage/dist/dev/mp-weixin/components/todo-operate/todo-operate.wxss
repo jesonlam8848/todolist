@@ -25,7 +25,13 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.Tips {
+  margin: 40rpx auto 10rpx;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+}
 .add-tast {
+  margin-top: 10rpx;
   flex: 1 0 80rpx;
 }
 .to-opreate {
